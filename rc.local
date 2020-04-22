@@ -13,7 +13,8 @@ echo ""
 echo "Customisation begin"
 echo ""
 
-if [ "$USER" == "root" ]; then
+id | grep -q "uid=0(root)"
+if [ "$?" == "0" ]; then
 	echo "Running as root"
 	INSTALL_PREFIX=/opt/imperial/rcs-node-config
 	LOG=/__customisation.log
