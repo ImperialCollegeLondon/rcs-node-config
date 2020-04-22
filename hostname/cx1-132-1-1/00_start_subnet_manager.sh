@@ -1,0 +1,1 @@
+../.common/00_start_subnet_manager.sh

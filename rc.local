@@ -1,0 +1,122 @@
+#!/bin/sh
+
+LOG=/_customisation.log
+
+DEBUG=0
+hostname -s | grep -q admin
+if [ "$?" == "0" ]; then
+	eho "Running on admin - forcing DEBUG mode. BE CAREFUL"
+	DEBUG=1
+fi
+
+echo ""
+echo "Customisation begin"
+echo ""
+
+if [ "$USER" == "root" ]; then
+	echo "Running as root"
+	INSTALL_PREFIX=/opt/imperial/rcs-node-config
+	LOG=/__customisation.log
+else
+	echo "Running as user"
+	INSTALL_PREFIX=$PWD
+	DEBUG=1
+fi
+
+if [ "$DEBUG" == "1" ]; then
+	echo "DEBUG MODE - will not execute scripts."
+	LOG=/dev/stdout
+fi
+
+if [ "$NODETYPE" == "" ]; then
+	NODETYPE=unknown
+fi
+
+for TYPE in cx1 cx3 r ; do
+	hostname -s | grep -q $TYPE
+	if [ "$?" == "0" ]; then
+		NODETYPE=$TYPE
+	fi
+done
+if [ "$NODETYPE" == "r" ]; then NODETYPE=cx2; fi
+
+
+if [ "$IMAGETYPE" == "" ]; then
+	IMAGETYPE=unknown
+fi
+for IMAGE in JUPYTERHUB LOGIN CENTOS8; do
+	if [ -e /__${IMAGE} ]; then
+		IMAGETYPE=$IMAGE
+	fi
+done
+
+HOSTNAME=$(hostname -s)
+
+echo "Hostname  : $HOSTNAME"  > $LOG
+echo "Node type : $NODETYPE"  >> $LOG
+echo "Image type: $IMAGETYPE" >> $LOG
+
+if [ -e $INSTALL_PREFIX/nodetype/$NODETYPE ]; then
+	echo "Node-type customisations: " >> $LOG
+		cd $INSTALL_PREFIX/nodetype/$NODETYPE
+		ls *.sh >> $LOG
+else
+		echo "No node-type customisations" >> $LOG
+fi
+
+if [ -e $INSTALL_PREFIX/imagetype/$IMAGETYPE ]; then
+	echo "Image-type customisations: " >> $LOG
+		cd $INSTALL_PREFIX/imagetype/$IMAGETYPE
+		ls *.sh >> $LOG
+else
+		echo "No image-type customisations" >> $LOG
+fi
+
+if [ -e $INSTALL_PREFIX/hostname$HOSTNAME ]; then
+	echo "Host-specific customisations: " >> $LOG
+		cd $INSTALL_PREFIX/hostname/$HOSTNAME
+		ls *.sh >> $LOG
+else
+		echo "No host-specific customisations" >> $LOG
+fi
+
+echo "Final customisations: " >> $LOG
+	cd $INSTALL_PREFIX/final
+	ls *.sh >> $LOG
+
+if [ "$DEBUG" == "0" ]; then
+
+
+	if [ -e $INSTALL_PREFIX/nodetype/$NODETYPE ]; then
+		cd $INSTALL_PREFIX/nodetype/$NODETYPE
+		for S in *.sh; do
+			echo "Running nodetype/$NODETYPE/$S" >> $LOG
+			./$S >> $LOG 2>&1
+		done
+	fi
+
+	if [ -e $INSTALL_PREFIX/imagetype/$IMAGETYPE ]; then
+		cd $INSTALL_PREFIX/imagetype/$IMAGETYPE
+		for S in *.sh; do
+			echo "Running imagetype/$IMAGETYPE/$S" >> $LOG
+			./$S >> $LOG 2>&1
+		done
+	fi
+
+	if [ -e $INSTALL_PREFIX/hostname/$HOSTNAME ]; then
+		cd $INSTALL_PREFIX/hostname/$HOSTNAME
+		for S in *.sh; do
+			echo "Running hostname/$HOSTNAME/$S" >> $LOG
+			./$S >> $LOG 2>&1
+		done
+	fi
+
+	cd $INSTALL_PREFIX/final
+	for S in *.sh; do
+		echo "Running final/$S" >> $LOG
+		./$S >> $LOG 2>&1
+	done
+
+fi
+
+

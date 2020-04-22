@@ -1,0 +1,1 @@
+../.common/10_fix_aslpm.sh
