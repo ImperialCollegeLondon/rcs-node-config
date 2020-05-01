@@ -18,8 +18,13 @@ echo "
 172.16.0.13     imperial-gw4.pixstor    imperial-gw4
 172.16.0.14     imperial-gw5.pixstor    imperial-gw5
 172.16.0.15     imperial-gw6.pixstor    imperial-gw6
+
 192.168.101.250 pbs1    pbs
 192.168.101.251 pbs2
+
+10.148.254.3    pbs-cx2
+10.149.16.100   pbs-cx3
+
 10.148.254.5    login-4.ib0.cx2.hpc.ic.ac.uk    login-4 login-4-internal
 10.148.254.6    login-5.ib0.cx2.hpc.ic.ac.uk    login-5 login-5-internal
 10.148.254.7    login-6.ib0.cx2.hpc.ic.ac.uk    login-6 login-6-internal
