@@ -75,13 +75,13 @@ IB_ADDR="192.168.${IB_OCT_3}.${OCT_4}"
 /sbin/ifconfig ib0 ${IB_ADDR} netmask 255.255.248.0
 /sbin/ifconfig ib0 up
 
-let IB_OCT_3=${IB_OCT_3}+8
-IB_ADDR="192.168.${IB_OCT_3}.${OCT_4}"
-/sbin/ifconfig ib1 ${IB_ADDR} netmask 255.255.248.0
-/sbin/ifconfig ib1 up
+#let IB_OCT_3=${IB_OCT_3}+8
+#IB_ADDR="192.168.${IB_OCT_3}.${OCT_4}"
+#/sbin/ifconfig ib1 ${IB_ADDR} netmask 255.255.248.0
+#/sbin/ifconfig ib1 up
 	
 /sbin/route add -net 192.168.104.0 netmask 255.255.248.0 ib0 2> /dev/null
-/sbin/route add -net 192.168.112.0 netmask 255.255.248.0 ib0 2> /dev/null
+#/sbin/route add -net 192.168.112.0 netmask 255.255.248.0 ib0 2> /dev/null
 
 
 # Now set ARP timeout sysctls, as recommened by Intel (Issue#411707 )
