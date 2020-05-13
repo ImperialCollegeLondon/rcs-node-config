@@ -27,3 +27,6 @@ if [ "$?" == "0" ]; then
 fi
 
 
+modprobe nvidia_uvm
+
+

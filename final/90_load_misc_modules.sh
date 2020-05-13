@@ -1,0 +1,2 @@
+modprobe squashfs
+modprobe overlay
