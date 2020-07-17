@@ -33,7 +33,7 @@ if [ "$NODETYPE" == "" ]; then
 	NODETYPE=unknown
 fi
 
-for TYPE in cx1 cx3 r ; do
+for TYPE in cx1 cx2 cx3 r ; do
 	hostname -s | grep -q $TYPE
 	if [ "$?" == "0" ]; then
 		NODETYPE=$TYPE
