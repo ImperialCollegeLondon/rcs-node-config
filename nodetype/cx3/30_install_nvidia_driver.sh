@@ -22,8 +22,14 @@ if [ "$?" == "0" ]; then
 	mkdir -p /var/run/nvidia-persistenced
 	chown nobody /var/run/nvidia-persistenced
 	nvidia-persistenced -u nobody
-
+	modprobe nvidia
+	modprobe nvidia_uvm
+	modprobe nvidia_modeset
+	modprobe nvidia_drm
 	chmod a+rw /dev/nvidia*
 fi
+
+
+modprobe nvidia_uvm
 
 

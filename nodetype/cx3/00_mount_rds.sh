@@ -1,6 +1,12 @@
 
 ### MJH 25/3/2020 -- deterministically assign an RDS NFS mount IP based on unit # (cx3-X-#)
 
+mkdir /rds
+mkdir /rds/general
+chmod a+rx /rds
+chmod a+rx /rds/general
+ln -s /rds /rdsgpfs
+
 RDS=hpc6.rds.ic.ac.uk
 
 LEN=$(host $RDS | wc -l)
@@ -11,7 +17,7 @@ HN=$(hostname -s)
 echo $HN | grep -q cx3
 
 if [ "$?" == "0" ]; then 
-	let N=$(echo $HN | sed 's/cx3-[0123456789]-//g')+1
+	let N=$(echo $HN | sed 's/cx3-[0123456789]*-//g')+1
 	while [ $N -gt $LEN ]; do let N=N-LEN; done; 
 
 	IP=$(host $RDS | sort | head -$N | tail -1 | sed 's/^.*address //g')

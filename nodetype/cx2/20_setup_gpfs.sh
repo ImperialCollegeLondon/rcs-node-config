@@ -1,12 +1,18 @@
 # Install route to GPFS network
+
+exit
+
 ip route add 172.16.0.0/255.255.255.192 via 10.148.0.2
 
 # Install the RPMs
 rpm -ivh /usr/local/gpfs/*rpm
 
-# Fixup th symlink
-rmdir /rds/general
-rmdir /rds
+# Fixup the symlink
+mkdir /rdsgpfs
+mkdir /rdsgpfs/general
+chmod a+rx /rdsgpfs
+chmod a+rx /rdsgpfs/general
+
 ln -s /rdsgpfs /rds
 
 ##Build GPFS GPL
