@@ -24,6 +24,7 @@ if [ "$?" == "0" ]; then
 	IP="[$IP]"
 	echo "Host $HN  mounting $RDS at $IP"
 
+	# not noac because jobs on this partition are very statty, not doing multinode mpiio
 	mount -t nfs -o sync,mountvers=3,nfsvers=3,nodev,nosuid,rsize=1048576,wsize=1048576 $IP:/rds/general /rds/general 
 else
 	echo "not a cx3 node"
