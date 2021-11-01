@@ -5,13 +5,15 @@ mount_tmp (){
   unlink /var/tmp
   mv /tmp /var/tmp
   mkdir /tmp
+  # Remember stick bit so users can delete tmp by mistake
+  chmod 1777 /tmp
   mount ${1} /tmp
-  chmod 777 /tmp 
-
 }
 
 if grep -q nvme0n2 /proc/partitions  ; then 
   mount_tmp /dev/nvme0n2
 elif grep -q sda2 /proc/partitions ; then
   mount_tmp /dev/sda2
+else
+  chmod 755 /tmp
 fi
