@@ -4,10 +4,11 @@
 mount_tmp (){
   unlink /var/tmp
   mv /tmp /var/tmp
+  chmod 755 /var/tmp
   mkdir /tmp
   # Remember stick bit so users can delete tmp by mistake
-  chmod 1777 /tmp
   mount ${1} /tmp
+  chmod 1777 /tmp
 }
 
 if grep -q nvme0n2 /proc/partitions  ; then 
