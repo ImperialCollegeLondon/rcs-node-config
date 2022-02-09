@@ -54,7 +54,9 @@ if [ "$?" == "1" ];then
 fi
 
 
-ETHDEV=`/sbin/route -n | grep -e "^0.0.0.0" | awk '{print $8}'`
+## Confides because of the clat interface so forcing to eth0
+##ETHDEV=`/sbin/route -n | grep -e "^0.0.0.0" | awk '{print $8}'`
+ETHDEV=eth0
 
 ETH0_ADDR=`/sbin/ifconfig ${ETHDEV} | grep "inet " | awk '{print $2}' `
 
