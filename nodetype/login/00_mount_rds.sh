@@ -11,6 +11,7 @@ ln -s /rds /rdsgpfs
 
 ## Check if we have moved to GPFS 
 ## Just a listing now - better test later
+<<<<<<< HEAD
 if [[ $HOSTNAME == cx3-[1-7]-* ]];then
 
   GPFS_NODE=1
@@ -30,6 +31,23 @@ if [ $GPFS_NODE ];then
   echo "Node $HOSTNAME is a GPFS node"
   echo "Mounting GPFS"
 
+=======
+if [[ $HOSTNAME == login-[a-z]* ]];then
+
+  GPFS_NODE=1
+
+else
+
+  GPFS_NODE=""
+
+fi
+
+
+if [ $GPFS_NODE ];then
+  echo "Node $HOSTNAME is a GPFS node"
+  echo "Mounting GPFS"
+
+>>>>>>> e48430d161d8be385d5ebb1c38c28b4ca802761f
 	## Build the GPFS kernel modules
 	/usr/lpp/mmfs/bin/mmbuildgpl
 
