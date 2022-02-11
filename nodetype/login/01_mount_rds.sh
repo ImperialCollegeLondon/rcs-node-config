@@ -11,11 +11,11 @@ ln -s /rds /rdsgpfs
 
 ## Check if we have moved to GPFS 
 ## Just a listing now - better test later
-if [[ $HOSTNAME == cx3-[1-7]-* ]];then
+if [[ $HOSTNAME == cx3-[1-8]-* ]];then
 
   GPFS_NODE=1
 
-elif  [[ $HOSTNAME == cx3-10-* ]];then
+elif  [[ $HOSTNAME == cx3-[10-15]-* ]];then
 
   GPFS_NODE=1
 
