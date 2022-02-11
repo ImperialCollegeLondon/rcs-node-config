@@ -46,6 +46,12 @@ for TYPE in login cx1 cx2 cx3 r ; do
 done
 if [ "$NODETYPE" == "r" ]; then NODETYPE=cx2; fi
 
+##RFC Catch case where cx3 node is booting from login image
+curl -s http://configuration.cx1.hpc.imperial.ac.uk/personality/pre_image_configuration | grep IMAGE_NAME | grep -q login
+if [ "$?" == "0" ]; then
+	NODETYPE=login
+fi
+
 
 if [ "$IMAGETYPE" == "" ]; then
 	IMAGETYPE=unknown
