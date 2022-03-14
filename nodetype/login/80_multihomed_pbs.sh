@@ -14,7 +14,7 @@ if [ "$(hostname -s)" != "${AUTHORISED_HOST}" ]; then
 fi
 
 ##Do pbs.conf
-sed -i 's/PBS_SERVER=pbs-cx3/PBS_SERVER=pbs1/g' /etc/pbs.conf
+sed -i 's/PBS_SERVER=pbs-cx3/PBS_SERVER=pbs/g' /etc/pbs.conf
 
 ##Then Hosts
 sed -i 's/##192.168.101.250 pbs1 pbs/192.168.101.250 pbs1 pbs/g' /etc/hosts
