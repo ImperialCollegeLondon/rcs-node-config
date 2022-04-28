@@ -11,8 +11,8 @@ mount_tmp (){
   chmod 1777 /tmp
 }
 
-if grep -q nvme0n2 /proc/partitions  ; then 
-  mount_tmp /dev/nvme0n2
+if grep -q nvme0n1p2 /proc/partitions  ; then 
+  mount_tmp /dev/nvme0n1p2
 elif grep -q sda2 /proc/partitions ; then
   mount_tmp /dev/sda2
 else
