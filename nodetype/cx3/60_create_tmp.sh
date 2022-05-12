@@ -15,6 +15,7 @@ if grep -q nvme0n1p2 /proc/partitions  ; then
   mkfs.xfs /dev/nvme0n1p2 
   mount_tmp /dev/nvme0n1p2
 elif grep -q sda2 /proc/partitions ; then
+  mkfs.xfs -f /dev/sda2
   mount_tmp /dev/sda2
 else
   chmod 755 /tmp
