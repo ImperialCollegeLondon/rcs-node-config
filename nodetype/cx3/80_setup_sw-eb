@@ -16,3 +16,4 @@ case ${CPU_TYPE} in
                 ARCH="generic"
                 ;;
 esac
+ln -s /rds/easybuild/${ARCH}/apps/ /sw-eb
