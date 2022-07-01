@@ -1,25 +1,14 @@
 #!/bin/bash
 
-MAKESWAP=0
-if [ ! -e /tmp/.SWAPFILE ]; then
-  MAKESWAP=1
-fi
-if [ -e /tmp/.SWAPFILE ]; then
-  /sbin/swapon /tmp/.SWAPFILE
-  if [ "$?" == "255" ]; then
-    # Failed. truncated file perhaps?
-    MAKESWAP=1
-  fi
-fi
+#If root isn't mounted as a tmpfs then create a 4GB swap as given by:
+#https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_storage_devices/getting-started-with-swap_managing-storage-devices
 
-if [ "$MAKESWAP" == "1" ]; then
-  dd if=/dev/zero of=/tmp/.SWAPFILE count=1 bs=1G
-  chmod 600 /tmp/.SWAPFILE
-  /sbin/mkswap -v1 /tmp/.SWAPFILE
-  /sbin/swapon /tmp/.SWAPFILE
-  # if it's on a tmpfs the mount will have failed
-  # so delete the swapfile
-  # if swapon worked, it will be undeletable
-  rm -f /tmp/.SWAPFILE
+if  ! df / | grep -q tmpfs  ; then 
+    #Create file if missing
+    if [ ! -e /tmp/.SWAPFILE ]; then
+        dd if=/dev/zero of=/tmp/.SWAPFILE count=1 bs=4G
+        chmod 600 /tmp/.SWAPFILE
+        /sbin/mkswap -v1 /tmp/.SWAPFILE
+    fi
+    /sbin/swapon /tmp/.SWAPFILE
 fi
-
