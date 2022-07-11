@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ "$(hostname -s)" != "login-dev" ]] ; then 
+    echo "Auto-updates are currently only running on login-dev"; 
+fi
+
 #Will need epel for updates. Following advice from https://www.redhat.com/en/blog/whats-epel-and-how-do-i-use-it
 ARCH=$( /bin/arch )
 subscription-manager repos --enable "codeready-builder-for-rhel-8-${ARCH}-rpms"
