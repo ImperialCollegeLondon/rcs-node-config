@@ -2,6 +2,7 @@
 
 if [[ "$(hostname -s)" != "login-dev" ]] ; then 
     echo "Auto-updates are currently only running on login-dev"; 
+    exit 
 fi
 
 #Will need epel for updates. Following advice from https://www.redhat.com/en/blog/whats-epel-and-how-do-i-use-it
