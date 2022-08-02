@@ -1,5 +1,6 @@
 #!/bin/bash
-
+hostname login-a
+exit
 ## We assume that eth0 is the interface that the DNS is set on.
 IPv6=$(ip -6 addr show dev eth0 | egrep -o "2a0c:[a-z0-9:]*")
 
