@@ -1,6 +1,6 @@
 
 
-RDS=hpc.rds.ic.ac.uk
+RDS=hpc-ib.rds.ic.ac.uk
 
 mkdir /rds
 mkdir /rds/general
