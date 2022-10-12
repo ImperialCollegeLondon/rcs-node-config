@@ -12,9 +12,9 @@ ln -s /rds /rdsgpfs
 
 # not noac, too many stat-heavy things run on cx1 nodes
 # Using if statements to prevent double mounting.
-if ! df  | grep -q "hpc.rds.ic.ac.uk:/rds/general"; then
+if ! df  | grep -q "${RDS}:/rds/general"; then
   mount -t nfs -o sync,noac,mountvers=3,nfsvers=3,nodev,nosuid,rsize=1048576,wsize=1048576 $RDS:/rds/general /rds/general
 fi
-if ! df  | grep -q "hpc.rds.ic.ac.uk:/rds/easybuild"; then
+if ! df  | grep -q "${RDS}:/rds/easybuild"; then
   mount -t nfs -o sync,noac,mountvers=3,nfsvers=3,nodev,nosuid,rsize=1048576,wsize=1048576 $RDS:/rds/easybuild /rds/easybuild/
 fi
