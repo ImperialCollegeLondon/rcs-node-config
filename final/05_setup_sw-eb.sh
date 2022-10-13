@@ -11,11 +11,12 @@ export PYTHONPATH=/apps/archspec/0.1.3:${PYTHONPATH}
 CPU_TYPE=$(cpudetect.py)
 case ${CPU_TYPE} in
     x86_64/intel/haswell)
-        ARCA="haswell"
+        ARCH="haswell"
         ;; 
 
     x86_64/intel/broadwell)
-        ARCA="haswell"
+        # Not much difference between haswell so use that
+        ARCH="haswell"
         ;;
 
     x86_64/amd/zen2)
