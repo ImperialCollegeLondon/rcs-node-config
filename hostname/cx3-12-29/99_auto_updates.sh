@@ -25,7 +25,7 @@ ConditionPathExists=!/run/ostree-booted
 Wants=network-online.target
 
 [Timer]
-OnCalendar=Tue *-*-* 6:00
+OnCalendar=Mon *-*-* 6:00
 RandomizedDelaySec=60m
 Persistent=true
 
