@@ -5,6 +5,11 @@ if hostname -s | grep -q login; then
     exit
 fi
 
+if [ -e /sw-eb ] ; then
+        echo "Link already present $(ls -dl /sw-eb)"
+fi
+
+
 export PATH=/apps/archspec/0.1.3:${PATH}
 export PYTHONPATH=/apps/archspec/0.1.3:${PYTHONPATH}
 
@@ -40,4 +45,6 @@ case ${CPU_TYPE} in
         ARCH="generic"
         ;;
 esac
+#Remove any failing link and add new one
+unlink /sw-eb
 ln -s /rds/easybuild/${ARCH}/apps/ /sw-eb
