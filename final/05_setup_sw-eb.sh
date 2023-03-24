@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if hostname -s | grep -q login; then 
-    echo "Do not link production Easybuild on login nodes"
-    exit
-fi
+#if hostname -s | grep -q login; then 
+#    echo "Do not link production Easybuild on login nodes"
+#    exit
+#fi
 
 if [ -e /sw-eb ] ; then
         echo "Link already present $(ls -dl /sw-eb)"
