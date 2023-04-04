@@ -1,68 +1,37 @@
-
-### MJH 25/3/2020 -- deterministically assign an RDS NFS mount IP based on unit # (cx3-X-#)
-
 mkdir /rds
 mkdir /rds/general
-chmod a+rx /rds
+mkdir /rds/easybuild
+chmod a+rw /rds/easybuild
 chmod a+rx /rds/general
+chmod a+rx /rds
 ln -s /rds /rdsgpfs
 
+#echo "Node $HOSTNAME is a GPFS node"
+#echo "Mounting GPFS"
 
+## Build the GPFS kernel modules
+#/usr/lpp/mmfs/bin/mmbuildgpl
 
-## Check if we have moved to GPFS 
-## Just a listing now - better test later
-if [[ $HOSTNAME == cx3-[1-8]-* ]];then
+##Mount rds via gpfs
+#/usr/lpp/mmfs/bin/mmstartup
 
-  GPFS_NODE=1
+#Hard coding gw assignments as the routing on the GW nodes isn't setup to allow a CX3 node to mount via NFS on the RR
+if grep -q "cx3-17" /etc/hostname; then 
+  GW_NUMBER=$(cut -f3 -d- /etc/hostname)
+  #Default to GW 6 
+  if [ $GW_NUMBER -gt "6" ]; then 
+    GW_NUMBER=6
+  fi
+	RDS=imperial-v6-gw${GW_NUMBER}.rds.ic.ac.uk
+  echo "Mounting RDS over NFS via ${RDS}"
 
-elif  [[ $HOSTNAME =~ cx3-[10-15]-* ]];then
-
-  GPFS_NODE=1
-
-else
-
-  GPFS_NODE=""
-
-fi
-
-
-if [ $GPFS_NODE ];then
-  echo "Node $HOSTNAME is a GPFS node"
-  echo "Mounting GPFS"
-
-	## Build the GPFS kernel modules
-	/usr/lpp/mmfs/bin/mmbuildgpl
-
-	##Mount rds via gpfs
-	/usr/lpp/mmfs/bin/mmstartup
-	
-else
-  echo "Node $HOSTNAME is NOT a GPFS node"
-  echo "Mounting NFS"
-
-
-	RDS=hpc6.rds.ic.ac.uk
-
-	LEN=$(host $RDS | wc -l)
-	echo "There are $LEN IPs for $RDS"
-
-	HN=$(hostname -s)
-
-	echo $HN | grep -q cx3
-
-if [ "$?" == "0" ]; then 
-		let N=$(echo $HN | sed 's/cx3-[0123456789]*-//g')+1
-		while [ $N -gt $LEN ]; do let N=N-LEN; done; 
-
-		IP=$(host $RDS | sort | head -$N | tail -1 | sed 's/^.*address //g')
-		IP="[$IP]"
-		echo "Host $HN  mounting $RDS at $IP"
-
-		# not noac because jobs on this partition are very statty, not doing multinode mpiio
-		mount -t nfs -o sync,mountvers=3,nfsvers=3,nodev,nosuid,rsize=1048576,wsize=1048576 $IP:/rds/general /rds/general 
-	else
-		echo "not a cx3 node"
-	fi
-
+  # not noac, too many stat-heavy things run on HPC
+  # Using if statements to prevent double mounting.
+  if ! df  | grep -q "${RDS}:/rds/general"; then
+    mount -t nfs -o mountvers=3,nfsvers=3,nodev,nosuid,rsize=65536,wsize=65536 $RDS:/rds/general /rds/general
+  fi
+  if ! df  | grep -q "${RDS}:/rds/easybuild"; then
+    mount -t nfs -o mountvers=3,nfsvers=3,nodev,nosuid,rsize=65536,wsize=65536 $RDS:/rds/easybuild /rds/easybuild/
+  fi
 fi
 
