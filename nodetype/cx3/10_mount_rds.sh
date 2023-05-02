@@ -15,14 +15,8 @@ ln -s /rds /rdsgpfs
 ##Mount rds via gpfs
 #/usr/lpp/mmfs/bin/mmstartup
 
-#Hard coding gw assignments as the routing on the GW nodes isn't setup to allow a CX3 node to mount via NFS on the RR
 if grep -q "cx3-17" /etc/hostname; then 
-  GW_NUMBER=$(cut -f1 -d. /etc/hostname | cut -f3 -d-)
-  #Default to GW 6 
-  if [ $GW_NUMBER -gt "6" ]; then 
-    GW_NUMBER=6
-  fi
-	RDS=imperial-v6-gw${GW_NUMBER}.rds.ic.ac.uk
+	RDS=hpc6.rds.ic.ac.uk
   echo "Mounting RDS over NFS via ${RDS}"
 
   # not noac, too many stat-heavy things run on HPC
