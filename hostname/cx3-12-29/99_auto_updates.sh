@@ -6,6 +6,7 @@
 
 #Directly register node with redhat.com
 subscription-manager register --org=15548048 --activationkey="RCS"
+insights-client --register
 
 #Will need epel for updates. Following advice from https://www.redhat.com/en/blog/whats-epel-and-how-do-i-use-it
 ARCH=$( /bin/arch )
