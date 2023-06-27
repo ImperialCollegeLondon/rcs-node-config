@@ -1,7 +1,12 @@
 #!/bin/bash
 
+#Commented out until satellite with working correctly.
 #Using script in /root as the rcs-node-config is public and the registration script has a private key
-/root/reg-with-sate.sh
+#/root/reg-with-sate.sh
+
+#Directly register node with redhat.com
+subscription-manager register --org=15548048 --activationkey="RCS"
+insights-client --register
 
 #Will need epel for updates. Following advice from https://www.redhat.com/en/blog/whats-epel-and-how-do-i-use-it
 ARCH=$( /bin/arch )
@@ -17,7 +22,7 @@ sed -i "s/apply_updates = no/apply_updates = yes/g" /etc/dnf/automatic.conf
 echo "exclude=kernel* redhat-release* kmod-*" >> /etc/yum.conf
 
 # Run updates on a Tuesday morning
-cat > /usr/lib/systemd/system/dnf-automatic.timer << EOF
+cat > usr/lib/systemd/system/dnf-automatic.timer << EOF
 [Unit]
 Description=rcs-dnf-automatic timer
 # See comment in dnf-makecache.service
@@ -35,5 +40,4 @@ EOF
 
 # Run once now and then start timer
 /usr/bin/dnf-automatic /etc/dnf/automatic.conf
-systemctl daemon-reload
-systemctl enable --now dnf-automatic.timer 
+systemctl enable --now dnf-automatic.timer
