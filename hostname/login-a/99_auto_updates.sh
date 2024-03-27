@@ -1,5 +1,5 @@
 #!/bin/bash
-exit 0
+
 #Commented out until satellite with working correctly.
 #Using script in /root as the rcs-node-config is public and the registration script has a private key
 #/root/reg-with-sate.sh
