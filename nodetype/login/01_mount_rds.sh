@@ -11,5 +11,5 @@ ln -s /rds /rdsgpfs
 /usr/lpp/mmfs/bin/mmbuildgpl
 
 ##Mount rds via gpfs
-#/usr/lpp/mmfs/bin/mmstartup
+/usr/lpp/mmfs/bin/mmstartup
 
