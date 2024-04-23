@@ -28,6 +28,10 @@ case ${CPU_TYPE} in
         ARCH="zen2"
         ;;
 
+    x86_64/amd/zen3)
+        ARCH="zen2"
+        ;;
+
     x86_64/intel/skylake_avx512)
         #Also have GPUs
         ARCH="skylake"
